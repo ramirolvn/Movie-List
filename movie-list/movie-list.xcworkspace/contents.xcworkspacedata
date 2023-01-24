@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:../NetworkPackage">
+   </FileRef>
+   <FileRef
       location = "group:../CommonPackage">
    </FileRef>
    <FileRef
