@@ -36,7 +36,7 @@ extension UIView {
 		self.subviews.first(where: {$0.tag == loadingTag})?.removeFromSuperview()
 		let activityView = UIActivityIndicatorView(style: .whiteLarge)
 		activityView.tag = loadingTag
-		activityView.color = color ?? .red
+		activityView.color = color ?? .darkText
 		activityView.center = self.center
 		self.addSubview(activityView)
 		activityView.startAnimating()
@@ -44,12 +44,17 @@ extension UIView {
 	
 	/// Tries to hide the loadingView that is visible
 	public func hideLoading() {
-		let loadingView = viewWithTag(loadingTag)
 		UIView.animate(withDuration: 0.25, animations: {
-			loadingView?.alpha = 0
+			DispatchQueue.main.async { [self] in
+				let loadingView = self.viewWithTag(loadingTag)
+				loadingView?.alpha = 0
+			}
 		}, completion: { _ in
-			(loadingView as? UIActivityIndicatorView)?.stopAnimating()
-			loadingView?.removeFromSuperview()
+			DispatchQueue.main.async {
+				let loadingView = self.viewWithTag(loadingTag)
+				(loadingView as? UIActivityIndicatorView)?.stopAnimating()
+				loadingView?.removeFromSuperview()
+			}
 		})
 	}
 }

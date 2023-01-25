@@ -66,7 +66,7 @@ class ShowListViewModel: ShowListViewModelProtocol {
 				return
 			}
 			if let shows = shows {
-				self.filtredShows.value = shows.map({$0.show})
+				self.filtredShows.value = shows
 				return
 			}
 			self.showErrorAlertPopUp.value = "Erro desconhecido!"

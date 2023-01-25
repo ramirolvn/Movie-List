@@ -8,7 +8,7 @@
 import UIKit
 import CommonPackage
 
-class ShowListView: UIViewController, LoadingPresenting {
+class ShowListView: BaseViewController, LoadingPresenting {
 	
 	private lazy var searchTopBar: UISearchBar = {
 		let searchBar = UISearchBar()
@@ -17,6 +17,7 @@ class ShowListView: UIViewController, LoadingPresenting {
 	
 	private lazy var tableViewList: UITableView = {
 		let tableView = UITableView()
+		tableView.allowsSelection = true
 		return tableView
 	}()
 	
@@ -42,6 +43,8 @@ class ShowListView: UIViewController, LoadingPresenting {
 	}
 	
 	private func setupUI() {
+		title = "Show List"
+		
 		view.addSubviews([searchTopBar,tableViewList,tabBottomBar])
 		
 		searchTopBar
@@ -65,15 +68,14 @@ class ShowListView: UIViewController, LoadingPresenting {
 	
 	private func configSearchBar() {
 		searchTopBar.delegate = self
-		searchTopBar.tintColor = .red
+		searchTopBar.tintColor = .darkText
 		searchTopBar.placeholder = "Type the name of the serie ;)"
 	}
 	
 	private func configTableView() {
-		let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
-		tableViewList.addGestureRecognizer(tap)
 		tableViewList.dataSource = self
 		tableViewList.delegate = self
+		tableViewList.register(ShowListCell.self, forCellReuseIdentifier: ShowListCell.className)
 	}
 	
 	private func configTabBar() {
@@ -127,7 +129,7 @@ class ShowListView: UIViewController, LoadingPresenting {
 		})
 	}
 	
-	@IBAction private func dismissKeyboard() {
+	private func dismissKeyboard() {
 		view.endEditing(true)
 	}
 	
@@ -141,14 +143,19 @@ extension ShowListView: UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = UITableViewCell()
 		
-		if let show = viewModel.getShow(by: indexPath.item) {
-			cell.textLabel?.text = show.name
+		guard let cell = tableView.dequeueReusableCell(withIdentifier: ShowListCell.className) as? ShowListCell,
+			  let show = viewModel.getShow(by: indexPath.item) else {
+			return UITableViewCell()
 		}
 		
-		
+		cell.configView(isSerie: true, title: show.name, imageUrlStr: show.image?.medium ?? "")
+
 		return cell
+	}
+	
+	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+		return UITableView.automaticDimension
 	}
 	
 	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -163,7 +170,12 @@ extension ShowListView: UITableViewDataSource {
 //MARK: TABLE VIEW DELEGATE
 
 extension ShowListView: UITableViewDelegate {
-	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		guard let showSelected = viewModel.getShow(by: indexPath.item) else { return }
+		let detailShowView = ShowDetailView()
+		detailShowView.viewModel =  ShowDetailViewModel(show: showSelected)
+		self.navigationController?.pushViewController(detailShowView, animated: true)
+	}
 }
 
 
@@ -176,6 +188,10 @@ extension ShowListView:  UISearchBarDelegate {
 			return
 		}
 		viewModel.searchByName(name: searchBar.text ?? "")
+	}
+	
+	func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+		dismissKeyboard()
 	}
 }
 
