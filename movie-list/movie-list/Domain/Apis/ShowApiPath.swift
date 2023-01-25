@@ -8,17 +8,17 @@
 import Foundation
 enum ShowApiPaths: String {
 	case getShows
-	case showsSeasons
+	case showEpisodes
 	case showByName
 	
-	func getPath(with showID: String = "", name: String = "", page: String = "") -> String {
+	func getPath(with showID: String = "") -> String {
 		switch self {
 		case .getShows:
-			return "shows?page="+page
-		case .showsSeasons:
-			return "/shows/\(showID)/seasons"
+			return "shows"
+		case .showEpisodes:
+			return "shows/\(showID)/episodes"
 		case .showByName:
-			return "search/shows?q="+name
+			return "search/shows"
 		}
 		
 	}

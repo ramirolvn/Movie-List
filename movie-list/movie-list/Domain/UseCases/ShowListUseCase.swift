@@ -24,7 +24,9 @@ final class ShowListUseCase {
 		})
 	}
 	
-	func searchShowByName(name: String, completion: @escaping ([ShowSearchable]?, String?) -> Void) {
-		showAPI.searchByName(name: name, completion: completion)
+	func searchShowByName(name: String, completion: @escaping ([Show]?, String?) -> Void) {
+		showAPI.searchByName(name: name, completion: { showsSearchable, error in
+			completion(showsSearchable.map({$0.map({$0.show})}), error)
+		})
 	}
 }
