@@ -30,6 +30,11 @@
 		A689689F297F38C900981E7C /* movie_listTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A689689E297F38C900981E7C /* movie_listTests.swift */; };
 		A68968A9297F38C900981E7C /* movie_listUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68968A8297F38C900981E7C /* movie_listUITests.swift */; };
 		A68968AB297F38C900981E7C /* movie_listUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68968AA297F38C900981E7C /* movie_listUITestsLaunchTests.swift */; };
+		A6A280B82981C73F00E72F08 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A280B72981C73F00E72F08 /* LoginView.swift */; };
+		A6A280BA298204F900E72F08 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A280B9298204F900E72F08 /* LoginViewModel.swift */; };
+		A6A280BE2982123000E72F08 /* LoginViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A280BD2982123000E72F08 /* LoginViewModelTest.swift */; };
+		A6A280BF298212E700E72F08 /* Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6F341782980920500070434 /* Episode.swift */; };
+		A6A280C12982143D00E72F08 /* ListViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A280C02982143D00E72F08 /* ListViewModelTest.swift */; };
 		A6F3416529807F3D00070434 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		A6F3416929807FD900070434 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		A6F3416E2980838600070434 /* (null) in Sources */ = {isa = PBXBuildFile; };
@@ -80,6 +85,10 @@
 		A68968A4297F38C900981E7C /* movie-listUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "movie-listUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A68968A8297F38C900981E7C /* movie_listUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = movie_listUITests.swift; sourceTree = "<group>"; };
 		A68968AA297F38C900981E7C /* movie_listUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = movie_listUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		A6A280B72981C73F00E72F08 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		A6A280B9298204F900E72F08 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		A6A280BD2982123000E72F08 /* LoginViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModelTest.swift; sourceTree = "<group>"; };
+		A6A280C02982143D00E72F08 /* ListViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModelTest.swift; sourceTree = "<group>"; };
 		A6F34174298091DD00070434 /* ShowDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowDetailView.swift; sourceTree = "<group>"; };
 		A6F34175298091DE00070434 /* ShowDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowDetailViewModel.swift; sourceTree = "<group>"; };
 		A6F341782980920500070434 /* Episode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Episode.swift; sourceTree = "<group>"; };
@@ -189,6 +198,7 @@
 		A689689D297F38C900981E7C /* movie-listTests */ = {
 			isa = PBXGroup;
 			children = (
+				A6A280BC2982121A00E72F08 /* ViewModelTests */,
 				A689689E297F38C900981E7C /* movie_listTests.swift */,
 			);
 			path = "movie-listTests";
@@ -201,6 +211,24 @@
 				A68968AA297F38C900981E7C /* movie_listUITestsLaunchTests.swift */,
 			);
 			path = "movie-listUITests";
+			sourceTree = "<group>";
+		};
+		A6A280B62981C71100E72F08 /* LoginView */ = {
+			isa = PBXGroup;
+			children = (
+				A6A280B72981C73F00E72F08 /* LoginView.swift */,
+				A6A280B9298204F900E72F08 /* LoginViewModel.swift */,
+			);
+			path = LoginView;
+			sourceTree = "<group>";
+		};
+		A6A280BC2982121A00E72F08 /* ViewModelTests */ = {
+			isa = PBXGroup;
+			children = (
+				A6A280BD2982123000E72F08 /* LoginViewModelTest.swift */,
+				A6A280C02982143D00E72F08 /* ListViewModelTest.swift */,
+			);
+			path = ViewModelTests;
 			sourceTree = "<group>";
 		};
 		A6F3416629807F9900070434 /* Domain */ = {
@@ -226,6 +254,7 @@
 			isa = PBXGroup;
 			children = (
 				A6F341812980BA3E00070434 /* Cells */,
+				A6A280B62981C71100E72F08 /* LoginView */,
 				A6F3417C2980AA7A00070434 /* EpisodeDetail */,
 				A6F3416C2980835F00070434 /* ShowDetail */,
 				A63BF289297F5A1900CF9F03 /* ListView */,
@@ -397,6 +426,7 @@
 			files = (
 				A6F3416E2980838600070434 /* (null) in Sources */,
 				A6F341792980920500070434 /* Episode.swift in Sources */,
+				A6A280BA298204F900E72F08 /* LoginViewModel.swift in Sources */,
 				A6F341852980BA7100070434 /* ShowListCell.swift in Sources */,
 				A63BF281297F54C300CF9F03 /* Show.swift in Sources */,
 				A6F3417E2980AADF00070434 /* EpisodeDetailView.swift in Sources */,
@@ -410,6 +440,7 @@
 				A63BF279297F52CA00CF9F03 /* ShowListUseCase.swift in Sources */,
 				A6F34176298091DE00070434 /* ShowDetailView.swift in Sources */,
 				A689688A297F38C700981E7C /* SceneDelegate.swift in Sources */,
+				A6A280B82981C73F00E72F08 /* LoginView.swift in Sources */,
 				A6F3417B2980993D00070434 /* EpisodeUseCase.swift in Sources */,
 				A6F34177298091DE00070434 /* ShowDetailViewModel.swift in Sources */,
 				A63BF27D297F533000CF9F03 /* ShowAPI.swift in Sources */,
@@ -422,12 +453,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6A280BE2982123000E72F08 /* LoginViewModelTest.swift in Sources */,
 				A63BF27E297F533000CF9F03 /* ShowAPI.swift in Sources */,
 				A63BF27A297F52CA00CF9F03 /* ShowListUseCase.swift in Sources */,
 				A63BF28C297F7E0900CF9F03 /* SearchableShow.swift in Sources */,
 				A63BF285297F55D300CF9F03 /* ShowApiPath.swift in Sources */,
 				A63BF288297F5A0C00CF9F03 /* ShowListViewModel.swift in Sources */,
+				A6A280C12982143D00E72F08 /* ListViewModelTest.swift in Sources */,
 				A63BF282297F54C300CF9F03 /* Show.swift in Sources */,
+				A6A280BF298212E700E72F08 /* Episode.swift in Sources */,
 				A689689F297F38C900981E7C /* movie_listTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -607,6 +641,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -637,6 +672,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -659,7 +695,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7QHKQ56Z2U;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "ramiro.neto.movie-listTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -679,7 +715,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7QHKQ56Z2U;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "ramiro.neto.movie-listTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -698,6 +734,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7QHKQ56Z2U;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "ramiro.neto.movie-listUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -716,6 +753,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7QHKQ56Z2U;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "ramiro.neto.movie-listUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";

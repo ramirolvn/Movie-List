@@ -1,4 +1,5 @@
 import UIKit
+import SafariServices
 import CommonPackage
 
 class EpisodeDetailView: BaseViewController {
@@ -47,6 +48,7 @@ class EpisodeDetailView: BaseViewController {
 		button.backgroundColor = .black
 		button.layer.cornerRadius = 8
 		button.translatesAutoresizingMaskIntoConstraints = false
+		button.addTarget(self, action: #selector(seeMoreTapped), for: .touchUpInside)
 		return button
 	}()
 	
@@ -108,5 +110,16 @@ class EpisodeDetailView: BaseViewController {
 		episodeTitleLabel.text = "\(viewModel?.episode.number ?? 0) - " + (viewModel?.episode.name ?? "")
 		episodeSeasonLabel.text = "Season: \(viewModel?.episode.season ?? 0)"
 		episodeSummaryLabel.attributedText = viewModel?.episode.summary.attributedHtmlString
+	}
+	
+	// MARK: - Actions
+	@objc private func seeMoreTapped() {
+		if let url = URL(string: viewModel?.episode.url ?? "") {
+				let config = SFSafariViewController.Configuration()
+				config.entersReaderIfAvailable = true
+
+				let vc = SFSafariViewController(url: url, configuration: config)
+				present(vc, animated: true)
+			}
 	}
 }
