@@ -40,6 +40,13 @@ class ShowListView: BaseViewController, LoadingPresenting {
 		configTableView()
 		configTabBar()
 		setupBindUI()
+		addButtonRight()
+	}
+	
+	private func addButtonRight() {
+		let button = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
+		button.tintColor = .darkText
+		navigationItem.rightBarButtonItem = button
 	}
 	
 	private func setupUI() {
@@ -133,6 +140,11 @@ class ShowListView: BaseViewController, LoadingPresenting {
 		view.endEditing(true)
 	}
 	
+	@objc private func logout() {
+		if LoginService.logout() {
+			self.navigationController?.viewControllers = [LoginView()]
+		}
+	}
 }
 
 //MARK: TABLE VIEW DATASOURCE
@@ -150,7 +162,7 @@ extension ShowListView: UITableViewDataSource {
 		}
 		
 		cell.configView(isSerie: true, title: show.name, imageUrlStr: show.image?.medium ?? "")
-
+		
 		return cell
 	}
 	
