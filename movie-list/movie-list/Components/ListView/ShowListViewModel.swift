@@ -27,7 +27,12 @@ class ShowListViewModel: ShowListViewModelProtocol {
 	var showErrorAlertPopUp: Observable<String> = Observable("")
 	var isLoadingView: Observable<Bool> = Observable(false)
 	var numberOfRows: Int {
-		showList.value.count
+		guard isFiltering else { return showList.value.count }
+		return filtredShows.value.count
+	}
+	
+	var isFiltering: Bool {
+		return filtredShows.value.count > 0
 	}
 	
 	private var page = 0
@@ -37,7 +42,7 @@ class ShowListViewModel: ShowListViewModelProtocol {
 	
 	
 	func getShowList() {
-		guard !isLast else { return }
+		guard !isLast, !isFiltering else { return }
 		isLoadingView.value = true
 		ShowListUseCase().getShowList(page: page, completion: { shows, error, isLast in
 			self.isLoadingView.value = false
@@ -78,6 +83,7 @@ class ShowListViewModel: ShowListViewModelProtocol {
 		page = 0
 		isLast = false
 		filtredShows.value = []
+		showList.value = []
 		getShowList()
 		
 	}

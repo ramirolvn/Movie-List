@@ -24,6 +24,10 @@ final class ListViewModelTest: XCTestCase {
 	func testnumberOfRows() throws {
 		XCTAssertEqual(viewModel.showList.value.count, 3)
 		XCTAssertEqual(viewModel.numberOfRows, 3)
+		viewModel.filtredShows.value = [Show(id: 123, name: "Filtred Test 1", image: nil, rating: nil, genres: nil, summary: "First Filtred summary", schedule: nil), Show(id: 124, name: "Filtred Test 2", image: nil, rating: nil, genres: nil, summary: "Secound Filtred summary", schedule: nil)]
+		XCTAssertEqual(viewModel.numberOfRows, 2)
+		viewModel.filtredShows.value = []
+		XCTAssertEqual(viewModel.numberOfRows, 3)
 	}
 	
 	func testGetShow() {

@@ -196,6 +196,10 @@ extension ShowListView: UITableViewDelegate {
 extension ShowListView:  UISearchBarDelegate {
 	func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 		if searchText.isEmpty {
+			self.tableViewList.scrollToRow(at: IndexPath(row: 0,
+														 section: 0),
+										   at: .top,
+										   animated: true)
 			viewModel.clearSearches()
 			return
 		}

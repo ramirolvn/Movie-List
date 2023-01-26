@@ -8,9 +8,8 @@
 import UIKit
 import CommonPackage
 import Security
-import LocalAuthentication
 
-class LoginView: BaseViewController {
+class LoginView: BaseViewController, LoadingPresenting {
 	// MARK: - Properties
 	private lazy var logoImageView: UIImageView = {
 		let imageView = UIImageView(image: UIImage(systemName: "popcorn.circle.fill"))
@@ -29,7 +28,7 @@ class LoginView: BaseViewController {
 	private lazy var usernameTextField: UITextField = {
 		let textField = UITextField()
 		textField.attributedPlaceholder = NSAttributedString(
-			string: "Username",
+			string: "Email",
 			attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkText]
 		)
 		textField.autocorrectionType = .no
@@ -60,6 +59,7 @@ class LoginView: BaseViewController {
 		)
 		textField.isSecureTextEntry = true
 		textField.returnKeyType = .go
+		textField.keyboardType = .numberPad
 		textField.textContentType = .oneTimeCode
 		textField.clearButtonMode = .whileEditing
 		textField.backgroundColor = UIColor(red:0.93, green:0.94, blue:0.95, alpha:1.00)
@@ -99,7 +99,7 @@ class LoginView: BaseViewController {
 		guard LoginService.hasFaceID() else {
 			return
 		}
-		authenticate()
+		viewModel.authenticate()
 	}
 	
 	// MARK: - Setup View
@@ -179,48 +179,52 @@ class LoginView: BaseViewController {
 		
 		viewModel.logged.addObserver({ [weak self] logged in
 			guard let logged = logged, logged else { return}
-			self?.authenticate()
+			self?.viewModel.authenticate()
+		})
+		
+		viewModel.isLoadingView.addObserver({[weak self] isLoading in
+			guard let self = self,
+				  let isLoading = isLoading,
+				  isLoading
+			else {
+				DispatchQueue.main.async {
+					self?.hideLoading()
+				}
+				return
+			}
+			DispatchQueue.main.async {
+				self.showLoading()
+			}
+		})
+		
+		viewModel.canGoToListView.addObserver({[weak self] canGoToListView in
+			guard let self = self,
+				  let canGoToListView = canGoToListView,
+				  canGoToListView
+			else {
+				return
+			}
+			self.goToListView()
 		})
 		
 	}
 	
 	// MARK: - Actions
 	@objc private func didTapLoginButton() {
-		viewModel.login(email: usernameTextField.text ?? "", password: passwordTextField.text ?? "")
+		
 		
 		UIView.animate(withDuration: 0.1, animations: {
 			self.loginButton.transform = CGAffineTransform(scaleX: 0, y: 0)
 		}) { _ in
 			UIView.animate(withDuration: 0.1) {
 				self.loginButton.transform = .identity
+				self.viewModel.login(email: self.usernameTextField.text ?? "", password: self.passwordTextField.text ?? "")
 			}
 		}
 	}
 	
 	@objc private func dismissKeyboard() {
 		view.endEditing(true)
-	}
-	
-	private func authenticate() {
-		let context = LAContext()
-		var error: NSError? = nil
-		if  context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-			let reason = "Identify yourself!"
-			context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics,
-								   localizedReason: reason) {
-				[weak self] success, authenticationError in
-				DispatchQueue.main.async {
-					guard success, error == nil else {
-						self?.goToListView()
-						return
-					}
-					LoginService.loginByFaceID()
-					self?.goToListView()
-				}
-			}
-		} else {
-			goToListView()
-		}
 	}
 	
 	private func goToListView() {
