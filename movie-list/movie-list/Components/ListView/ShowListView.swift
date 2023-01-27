@@ -21,11 +21,6 @@ class ShowListView: BaseViewController, LoadingPresenting {
 		return tableView
 	}()
 	
-	private lazy var tabBottomBar: UITabBar = {
-		let tabBar = UITabBar()
-		return tabBar
-	}()
-	
 	private var viewModel: ShowListViewModelProtocol = ShowListViewModel()
 	
 	override func viewDidLoad() {
@@ -38,7 +33,6 @@ class ShowListView: BaseViewController, LoadingPresenting {
 		setupUI()
 		configSearchBar()
 		configTableView()
-		configTabBar()
 		setupBindUI()
 		addButtonRight()
 	}
@@ -52,7 +46,7 @@ class ShowListView: BaseViewController, LoadingPresenting {
 	private func setupUI() {
 		title = "Show List"
 		
-		view.addSubviews([searchTopBar,tableViewList,tabBottomBar])
+		view.addSubviews([searchTopBar,tableViewList])
 		
 		searchTopBar
 			.topToSuperview(toSafeArea: true)
@@ -64,13 +58,7 @@ class ShowListView: BaseViewController, LoadingPresenting {
 			.topToBottom(of: searchTopBar)
 			.leadingToSuperview()
 			.trailingToSuperview()
-		
-		tabBottomBar
-			.topToBottom(of: tableViewList)
-			.leadingToSuperview()
-			.trailingToSuperview()
-			.heightTo(50)
-			.bottomToSuperview(toSafeArea: true)
+			.bottomToSuperview()
 	}
 	
 	private func configSearchBar() {
@@ -83,13 +71,6 @@ class ShowListView: BaseViewController, LoadingPresenting {
 		tableViewList.dataSource = self
 		tableViewList.delegate = self
 		tableViewList.register(ShowListCell.self, forCellReuseIdentifier: ShowListCell.className)
-	}
-	
-	private func configTabBar() {
-		tabBottomBar.delegate = self
-		tabBottomBar.items = [ UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), tag: 0),
-							   UITabBarItem(title: "Favorites", image: UIImage(systemName: "heart"), tag: 1)]
-		tabBottomBar.selectedItem = tabBottomBar.items?.first
 	}
 	
 	private func setupBindUI() {
@@ -134,6 +115,15 @@ class ShowListView: BaseViewController, LoadingPresenting {
 				self.present(errorAlert, animated: true, completion: nil)
 			}
 		})
+		
+		viewModel.reloadFavoriteShowIndex.addObserver({[weak self] reloadFavoriteShowIndex in
+			guard let self = self,
+				  let reloadFavoriteShowIndex = reloadFavoriteShowIndex
+			else {
+				return
+			}
+			self.tableViewList.reloadRows(at: [IndexPath(row: reloadFavoriteShowIndex, section: 0)], with: .middle)
+		})
 	}
 	
 	private func dismissKeyboard() {
@@ -161,7 +151,7 @@ extension ShowListView: UITableViewDataSource {
 			return UITableViewCell()
 		}
 		
-		cell.configView(isSerie: true, title: show.name, imageUrlStr: show.image?.medium ?? "")
+		cell.configView(isSerie: true, title: show.name, imageUrlStr: show.image?.medium ?? "", isFavorited: viewModel.getShowFavoriteStatus(by: show.id), showID: show.id, showListCellOutput: self)
 		
 		return cell
 	}
@@ -211,8 +201,13 @@ extension ShowListView:  UISearchBarDelegate {
 	}
 }
 
-//MARK: TAB BAR DELEGATE
-
-extension ShowListView: UITabBarDelegate {
-	
+//MARK: ShowListCellOutput
+extension ShowListView: ShowListCellOutput {
+	func favoriteClicked(isFavorited: Bool, and showID: Int) {
+		guard isFavorited else {
+			viewModel.favoriteShow(id: showID)
+			return
+		}
+		viewModel.disfavorShow(id: showID)
+	}
 }

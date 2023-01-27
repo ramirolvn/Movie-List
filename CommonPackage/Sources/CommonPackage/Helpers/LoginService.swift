@@ -28,7 +28,8 @@ public struct LoginService {
 	
 	public static func logout() -> Bool {
 		let keychain = KeychainSwift()
-		return keychain.clear()
+		let databaseDelete = DatabaseService.deleteAllOjects()
+		return keychain.clear() && databaseDelete
 	}
 	
 	public static func loginByFaceID() {

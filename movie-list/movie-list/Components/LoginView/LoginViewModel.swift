@@ -15,6 +15,7 @@ protocol LoginViewModelProtocol: AnyObject {
 	var logged: Observable<Bool?> { get }
 	var isLoadingView: Observable<Bool?> { get }
 	var canGoToListView: Observable<Bool?> { get }
+	var canRegisterBiometric: Bool { get }
 	
 	func login(email: String, password: String)
 	func hasUser() -> Bool
@@ -30,6 +31,13 @@ class LoginViewModel: LoginViewModelProtocol {
 	var loginButtonTitle: String {
 		return hasUser() ? "Login" : "Create Account"
 	}
+	
+	var canRegisterBiometric: Bool {
+		return context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
+	}
+	
+	private let context = LAContext()
+	private var error: NSError? = nil
 	
 	init() {
 		
@@ -61,15 +69,13 @@ class LoginViewModel: LoginViewModelProtocol {
 	
 	func authenticate() {
 		isLoadingView.value = true
-		let context = LAContext()
-		var error: NSError? = nil
-		if  context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+		if canRegisterBiometric {
 			let reason = "Identify yourself!"
 			context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics,
 								   localizedReason: reason) {
 				[weak self] success, authenticationError in
-				DispatchQueue.main.async {
-					guard success, error == nil else {
+				DispatchQueue.main.async {[weak self] in
+					guard success, self?.error == nil else {
 						self?.isLoadingView.value = false
 						self?.canGoToListView.value = true
 						return

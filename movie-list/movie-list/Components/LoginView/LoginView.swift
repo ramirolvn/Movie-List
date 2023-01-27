@@ -178,8 +178,25 @@ class LoginView: BaseViewController, LoadingPresenting {
 		})
 		
 		viewModel.logged.addObserver({ [weak self] logged in
-			guard let logged = logged, logged else { return}
-			self?.viewModel.authenticate()
+			guard let logged = logged, logged else { return }
+			if self?.viewModel.canRegisterBiometric ?? false {
+				DispatchQueue.main.async {
+					let authenticationAlert = UIAlertController(title: "Hello =)", message: "Do you want register your Touch ID/Face ID?", preferredStyle: UIAlertController.Style.alert)
+					
+					authenticationAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action: UIAlertAction!) in
+						self?.viewModel.authenticate()
+					}))
+					
+					authenticationAlert.addAction(UIAlertAction(title: "No", style: .default, handler: { (action: UIAlertAction!) in
+						self?.goToListView()
+					}))
+					
+					self?.present(authenticationAlert, animated: true, completion: nil)
+				}
+				return
+			}
+			
+			self?.goToListView()
 		})
 		
 		viewModel.isLoadingView.addObserver({[weak self] isLoading in
