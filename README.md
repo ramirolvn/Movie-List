@@ -21,8 +21,9 @@ This project was made in Swift and Xcode 14.2, to use it download it here, open 
 
 ### Executing program
 
-* Open the movie-list.xcworkspace archive in the "Movie-List/movie-list"
-* Choose a device to run the project and run
+* Open the movie-list.xcworkspace archive at "Movie-List/movie-list"
+* Wait the swift package dependencies download
+* Choose a devicea nd run the project
 
 ## Authors
 
